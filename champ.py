@@ -36,6 +36,12 @@ teams = sorted(north_teams.keys()) + sorted(south_teams.keys())
 df_spread_prob = pd.read_csv("spread_probs.csv")
 ser_prob = df_spread_prob.set_index("Spread", drop=True)
 
+def spread_to_prob(s):
+    if isinstance(s, str):
+        s = float(s)
+    i = np.argmin(np.abs(ser_prob.index - s))
+    return ser_prob.iloc[i].item()
+
 rng = np.random.default_rng()
 
 blank = {
@@ -125,7 +131,7 @@ def sim_game(home, away, neutral=False):
     else:
         hfa = hfa_dict[home]
     spread = pr_dict[home] + hfa - pr_dict[away]
-    prob = ser_prob.loc[spread].item()
+    prob = spread_to_prob(spread)
     r = rng.random()
     if r < prob:
         return {"home_score": 22, "away_score": 18}

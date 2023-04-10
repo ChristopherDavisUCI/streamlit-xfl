@@ -9,7 +9,7 @@ import pickle
 from odds_helper import odds_to_prob, prob_to_odds
 from xfl_data import urls, divs
 
-wk = 7 # Change this next week
+wk = 8 # Change this next week
 sims = 500
 
 df_results = pd.read_csv(f"results-week{wk}.csv")
